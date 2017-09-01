@@ -13,30 +13,31 @@ public class DecryptFile {
 	public static void main(String[] args) {
 
 		String info = JOptionPane.showInputDialog("What is is the encrypted file name");
-		 
-		 try {
-		 BufferedReader br = new BufferedReader(new
-		 FileReader("src/intro_to_file_io/Encrypt.txt"));
-		
-		 //String find = br.readLine();
-		 while(info != null){
-			 byte[] encoded = info.getBytes();
-		        String text = new String(encoded);
-		info = br.readLine();
-		 }
-		
-		 br.close();
-		 } catch (FileNotFoundException e1) {
-		 // TODO Auto-generated catch block
-		 e1.printStackTrace();
-		 } catch (IOException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
-		
-		
-		 }
 
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/intro_to_file_io/Encrypt.txt"));
+
+			String line = br.readLine();
+
+			while (line != null) {
+				byte[] encoded = line.getBytes();
+				
+				int charCode = Integer.parseInt(line, 2);
+				String text = new Character((char)charCode).toString();
+				
+				line = br.readLine();
+				System.out.println(text);
+			}
+
+			br.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
+}

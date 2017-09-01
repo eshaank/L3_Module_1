@@ -30,7 +30,7 @@ public class EncryptFile {
 		try {
 			FileWriter fw = new FileWriter("src/intro_to_file_io/Encrypt.txt");
 			
-			fw.write("'" + name + "' to binary: " + binary);
+			fw.write("Binary: " + binary);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
