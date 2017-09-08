@@ -4,32 +4,42 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class DecryptFile {
 	public static void main(String[] args) {
 
 		String info = JOptionPane.showInputDialog("What is is the encrypted file name");
-
+		String message = "";
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/intro_to_file_io/Encrypt.txt"));
+			 BufferedReader b = new BufferedReader(new FileReader("src/intro_to_file_io/Encrypt.txt"));
 
-			String line = br.readLine();
+			String line = b.readLine();
 
 			while (line != null) {
-				byte[] encoded = line.getBytes();
+	
+				List<String> list = Arrays.asList(line.split(" "));
 				
-				int charCode = Integer.parseInt(line, 2);
-				String text = new Character((char)charCode).toString();
+			     for (int i = 0; i < list.size(); i++) {
+					
 				
-				line = br.readLine();
-				System.out.println(text);
+			      System.out.println("Enter a binary value:");
+			      
+			      int k = Integer.parseInt(list.get(i),2);  
+			      String out = new Character((char)k).toString();
+			      System.out.println("string: " + out );
+			      message += out;
+			      
+				
+				}
+			     line = b.readLine();
 			}
-
-			br.close();
+JOptionPane.showMessageDialog(null, message );
+			b.close();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
