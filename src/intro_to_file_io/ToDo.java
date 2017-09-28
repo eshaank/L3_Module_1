@@ -2,6 +2,9 @@ package intro_to_file_io;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,59 +31,99 @@ public class ToDo implements ActionListener {
 
 	JFrame frame;
 	JPanel panel;
-	JButton button1;
-	JButton button2;
-	JButton button3;
-	JButton button4;
+	JButton addTask;
+	JButton removeTask;
+	JButton save;
+	JButton load;
 
 	PrintWriter pw;
-	PrintWriter prw;
 	Scanner scan;
-	Scanner sca;
 	FileWriter frw;
 	ArrayList<String> list = new ArrayList<>();
 
 	public static void main(String[] args) {
 		ToDo todo = new ToDo();
 		todo.magic();
+
+	}
+
+	void writer() {
+
 	}
 
 	void magic() {
 		frame = new JFrame();
 		panel = new JPanel();
-		button1 = new JButton();
-		button2 = new JButton();
-		button3 = new JButton();
-		button4 = new JButton();
+		addTask = new JButton();
+		removeTask = new JButton();
+		save = new JButton();
+		load = new JButton();
 
 		frame.setSize(500, 500);
 		frame.setVisible(true);
 		frame.add(panel);
-		panel.add(button1);
-		panel.add(button2);
-		panel.add(button3);
-		panel.add(button4);
+		panel.add(addTask);
+		panel.add(removeTask);
+		panel.add(load);
 
-		button1.addActionListener(this);
-		button2.addActionListener(this);
-		button3.addActionListener(this);
-		button4.addActionListener(this);
+		addTask.addActionListener(this);
+		removeTask.addActionListener(this);
+		save.addActionListener(this);
+		load.addActionListener(this);
 
-		button1.setText("Add Task");
-		button2.setText("Remove Task");
-		button3.setText("Save");
-		button4.setText("Load");
+		addTask.setText("Add Task");
+		removeTask.setText("Remove Task");
+		save.setText("Save");
+		load.setText("Load");
 		frame.pack();
+		frame.setDefaultCloseOperation(0);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(button1)) {
+		if (e.getSource() == addTask) {
+
 			String task = JOptionPane.showInputDialog(null, "Type a task to be done");
 			list.add(task);
-			System.out.println(list);
+			
+			
+
+				try {
+					for (int i = 0; i < list.size(); i++) {
+					FileWriter fw = new FileWriter("src/intro_to_file_io/List.txt", true);
+					fw.write(list.get(i));
+
+					fw.close();
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		
+
+		if (e.getSource() == load) {
+
+			try {
+				BufferedReader br = new BufferedReader(new FileReader("src/intro_to_file_io/List.txt"));
+
+				String line = br.readLine();
+				while (line != null) {
+			JOptionPane.showMessageDialog(null, line);
+					line = br.readLine();
+				}
+
+				br.close();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+		}
+
+		if (e.getSource() == removeTask) {
+			String remove = JOptionPane.showInputDialog("Which task would you like to remove? \n" + list);
+
 		}
 
 	}
-
 }
