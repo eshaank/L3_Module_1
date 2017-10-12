@@ -41,6 +41,7 @@ public class ToDo implements ActionListener {
 
 	String file;
 
+	FileWriter fw;
 	PrintWriter pw;
 	Scanner scan;
 	FileWriter frw;
@@ -91,26 +92,28 @@ public class ToDo implements ActionListener {
 			String task = JOptionPane.showInputDialog(null, "Type a task to be done");
 			list.add(task + "\n");
 			task = "";
-
+			
 			try {
-				for (int i = 0; i < list.size(); i++) {
-					FileWriter fw = new FileWriter("src/intro_to_file_io/List.txt", true);
-					fw.write(list.get(i));
+					 fw = new FileWriter("src/intro_to_file_io/List.txt", true);
+					fw.write(list.get(list.size()-1));
 
 					fw.close();
-				}
+					System.out.println(list);
+				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 
 		if (e.getSource() == load) {
-
+			String empty = "There are no tasks here.";
 			file = "";
 			try {
 				scan = new Scanner(new File("src/intro_to_file_io/List.txt"));
 				while (scan.hasNextLine()) {
-
+					if (file.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "There are currently no tasks");
+					}
 					file += scan.nextLine();
 					file += "\n";
 				}
@@ -123,7 +126,48 @@ public class ToDo implements ActionListener {
 
 		}
 		if (e.getSource() == removeTask) {
-			String remove = JOptionPane.showInputDialog("Which task would you like to remove? \n" + file);
+
+				String remove = JOptionPane.showInputDialog("Which task would you like to remove? \n" + file );
+		
+				
+				file = "";
+				try {
+					scan = new Scanner(new File("src/intro_to_file_io/List.txt"));
+					while (scan.hasNextLine()) {
+						String temp = scan.nextLine();
+						if (!temp.equals(remove)) {
+							file += temp;
+						}
+						
+						else {
+					JOptionPane.showMessageDialog(null, "Task deleted ");
+					}
+						file += "\n";
+					}
+					
+				} catch (FileNotFoundException e1) {
+
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+				
+				try {
+					 fw = new FileWriter("src/intro_to_file_io/List.txt", false);
+					fw.write(file);
+
+					fw.close();
+					System.out.println(list);
+				
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+				
+			
+			
 		}
 
 	}
